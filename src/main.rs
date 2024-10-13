@@ -1,41 +1,25 @@
 mod auth;
+mod utils;
 mod models;
+mod services;
 
-use models::invoice::Invoice;
-use models::customer::Customer;
-use models::car::Car;
+use crate::models::invoice::Invoice;
+
+use crate::services::invoice_service::InvoiceService;
+use crate::utils::json_util::{append_to_file, retrieve_json_data};
+use serde_json;
 
 fn main() { 
-    let company_name = "MB Auto";
 
-    welcome_screen(company_name);
-    auth::login_screen();
+    // auth::login_screen();
 
-    let invoice = Invoice {
-        id: 1,
-        description: "Payment for consulting services".to_string(),
-        amount: 500.0,
-        date: "2024-09-10".to_string(),
-    };
+    let filepath = "data.json";
 
-    let customer = Customer {
-        id: 1,
-        name: "Gabriel Choong".to_string(),
-        phone: "012-4989791".to_string(),
-    };
+    let first_invoice = InvoiceService::create_invoice();
 
-    let car = Car {
-        id: 1,
-        model: "Honda".to_string(),
-        registration_number: "WRM 756".to_string(),
-    };
+    let json_invoice = serde_json::to_string(&first_invoice).unwrap();
 
-    println!("{:?}", invoice);
-    println!("{:?}", customer);
-    println!("{:?}", car);
+    let _ = append_to_file(filepath, &json_invoice);
+
+    let Ok((data, content)) = retrieve_json_data::<Invoice>(filepath) else { panic!("You've hit an error!") };
 }
-
-fn welcome_screen(user: &str) {
-    println!("Welcome to {user} Accounting");
-}
-

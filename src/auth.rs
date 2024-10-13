@@ -18,7 +18,7 @@ pub fn credential_check(io_password: String, io_username: String) {
     if io_password == password && io_username == username {
         println!("Welcome, {io_username}.");
     } else {
-        println!("Invalide username or password, please try again.");
+        println!("Invalid username or password, please try again.");
     }
 }
 
