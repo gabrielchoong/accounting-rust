@@ -1,53 +1,25 @@
 mod auth;
+mod utils;
 mod models;
+mod services;
 
-use crate::models::customer::Customer;
-use crate::models::car::Car;
-use crate::models::invoice_details::InvoiceDetails;
 use crate::models::invoice::Invoice;
 
-fn main() { 
-    let company_name = "MB Auto";
+use crate::services::invoice_service::InvoiceService;
+use crate::utils::json_util::{append_to_file, retrieve_json_data};
+use serde_json;
 
-    welcome_screen(company_name);
+fn main() { 
+
     // auth::login_screen();
 
-    let customer = Customer {
-        id: 1,
-        name: String::from("John Doe"),
-        phone: String::from("123-456-7890"),
-    };
+    let filepath = "data.json";
 
-    let car = Car {
-        id: 1,
-        model: String::from("Toyota Corolla"),
-        registration_number: String::from("XYZ 1234"),
-    };
+    let first_invoice = InvoiceService::create_invoice();
 
-    let detail1 = InvoiceDetails::new(
-        String::from("Oil Change"),
-        1,
-        29.99
-    );
+    let json_invoice = serde_json::to_string(&first_invoice).unwrap();
 
-    let detail2 = InvoiceDetails::new(
-        String::from("Tire Rotation"),
-        1,
-        15.00
-    );
-    
-    let invoice = Invoice {
-        id: 1,
-        date: String::from("2024-10-04"),
-        details: vec![detail1, detail2],
-        customer,
-        car,
-    };
+    let _ = append_to_file(filepath, &json_invoice);
 
-    println!("{:?}", invoice);
+    let Ok((data, content)) = retrieve_json_data::<Invoice>(filepath) else { panic!("You've hit an error!") };
 }
-
-fn welcome_screen(user: &str) {
-    println!("Welcome to {user} Accounting");
-}
-

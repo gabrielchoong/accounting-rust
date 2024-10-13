@@ -1,4 +1,6 @@
-#[derive(Debug)]
+use serde::{Serialize, Deserialize};
+
+#[derive(Debug, Serialize, Deserialize)]
 pub struct InvoiceDetails {
     pub description: String,
     pub quantity: i32,
@@ -6,7 +8,9 @@ pub struct InvoiceDetails {
 }
 
 impl InvoiceDetails {
+    
     pub fn new(description: String, quantity: i32, unit_price: f64) -> Self {
+
         InvoiceDetails {
             description,
             quantity,
