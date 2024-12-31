@@ -45,6 +45,7 @@
 ### **2024-12-27**
 
 - Forked the code and created a new repository.
+- Refactored the `InvoiceDetails` struct to `InvoiceItem` for better hierarchy.
 
 ### **2024-10-13**
 
