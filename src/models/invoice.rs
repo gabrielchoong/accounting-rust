@@ -1,8 +1,8 @@
-use crate::models::invoice_details::InvoiceDetails;
-use crate::models::customer::Customer;
 use crate::models::car::Car;
+use crate::models::customer::Customer;
+use crate::models::invoice_details::InvoiceDetails;
 
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Invoice {
@@ -10,6 +10,5 @@ pub struct Invoice {
     pub date: String,
     pub details: Vec<InvoiceDetails>,
     pub customer: Customer,
-    pub car: Car
+    pub car: Car,
 }
-
